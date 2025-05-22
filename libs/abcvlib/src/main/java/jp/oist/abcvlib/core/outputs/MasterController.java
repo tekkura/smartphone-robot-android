@@ -4,7 +4,6 @@ import android.util.Log;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import ioio.lib.api.exception.ConnectionLostException;
 import jp.oist.abcvlib.util.SerialCommManager;
 import jp.oist.abcvlib.core.Switches;
 
@@ -13,7 +12,7 @@ Currently deprecated. This class was intended to be used as a way to control mul
 This needs to be updated to include a way to control the motors via the SerialCommManager class
 instead of the deprecated SerialCommManager class
  */
-public class MasterController extends AbcvlibController{
+public class MasterController extends AbcvlibController {
 
     private final String TAG = this.getClass().getName();
 
@@ -28,14 +27,11 @@ public class MasterController extends AbcvlibController{
 
     @Override
     public void run() {
-
         setOutput(0, 0);
         for (AbcvlibController controller : controllers){
-
             if (switches.loggerOn){
                 Log.v(TAG, controller.toString() + "output:" + controller.getOutput().left);
             }
-
             setOutput((output.left + controller.getOutput().left), (output.right + controller.getOutput().right));
         }
 

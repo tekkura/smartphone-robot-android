@@ -7,5 +7,4 @@ public interface IOReadyListener {
      * to ensure no null pointers.
      */
     void onIOReady();
-
 }

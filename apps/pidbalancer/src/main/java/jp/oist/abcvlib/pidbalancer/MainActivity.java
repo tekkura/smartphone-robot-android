@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.concurrent.TimeUnit;
 
 import jp.oist.abcvlib.core.AbcvlibActivity;
-import jp.oist.abcvlib.core.AbcvlibLooper;
 import jp.oist.abcvlib.core.IOReadyListener;
 import jp.oist.abcvlib.core.inputs.PublisherManager;
 import jp.oist.abcvlib.core.inputs.microcontroller.WheelData;
@@ -37,7 +36,7 @@ public class MainActivity extends AbcvlibActivity implements IOReadyListener{
         // ID within the R class
         setContentView(R.layout.activity_main);
 
-        setIoReadyListener(this);
+        setIOReadyListener(this);
 
         // Passes Android App information up to parent classes for various usages. Do not modify
         super.onCreate(savedInstanceState);
@@ -65,13 +64,13 @@ public class MainActivity extends AbcvlibActivity implements IOReadyListener{
     }
 
     @Override
-    public void onIOReady(AbcvlibLooper abcvlibLooper) {
+    public void onIOReady() {
         // Create your data publisher objects
         PublisherManager publisherManager = new PublisherManager();
         OrientationData orientationData = new OrientationData
                 .Builder(this, publisherManager).build();
         WheelData wheelData = new WheelData
-                .Builder(this, publisherManager, abcvlibLooper).build();
+                .Builder(this, publisherManager).build();
         // Initialize all publishers (i.e. start their threads and data streams)
         publisherManager.initializePublishers();
 

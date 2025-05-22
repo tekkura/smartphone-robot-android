@@ -54,7 +54,7 @@ public class BalancePIDController extends AbcvlibController implements WheelData
      * @param p_wheel_ proportional controller relative to the wheel distance
      * @param expWeight_ exponential filter coefficicent //todo implement this more clearly
      * @param maxAbsTilt_ max tilt abgle (deg) at which the controller will switch between a linear and non-linear bounce controller.
-     * @throws InterruptedException thrown if shutdown while trying to read/write to the IOIO board.
+     * @throws InterruptedException thrown if shutdown while trying to read/write to the board. (IOIO reference removed)
      */
     synchronized public void setPID(double p_tilt_, double i_tilt_, double d_tilt_, double setPoint_,
                                     double p_wheel_, double expWeight_, double maxAbsTilt_)

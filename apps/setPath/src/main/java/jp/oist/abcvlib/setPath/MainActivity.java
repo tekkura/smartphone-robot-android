@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import jp.oist.abcvlib.core.AbcvlibActivity;
-import jp.oist.abcvlib.core.AbcvlibLooper;
 import jp.oist.abcvlib.core.IOReadyListener;
 
 /**
@@ -27,7 +26,7 @@ public class MainActivity extends AbcvlibActivity implements IOReadyListener {
     }
 
     @Override
-    public void onIOReady(AbcvlibLooper abcvlibLooper) {
+    public void onIOReady() {
         // Linear Back and Forth every 10 mm
         setPath setPathThread = new setPath();
         new Thread(setPathThread).start();

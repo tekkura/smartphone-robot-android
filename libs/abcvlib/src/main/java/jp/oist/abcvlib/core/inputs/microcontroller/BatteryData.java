@@ -6,7 +6,6 @@ import android.os.HandlerThread;
 
 import java.util.ArrayList;
 
-import jp.oist.abcvlib.core.AbcvlibLooper;
 import jp.oist.abcvlib.core.inputs.PublisherManager;
 import jp.oist.abcvlib.core.inputs.Publisher;
 

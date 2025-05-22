@@ -1,6 +1,6 @@
 package jp.oist.abcvlib.util;
 
-import jp.oist.abcvlib.core.AbcvlibLooper;
+import jp.oist.abcvlib.util.UsbSerial;
 
 public interface SerialReadyListener {
     /**

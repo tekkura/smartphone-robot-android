@@ -8,7 +8,6 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import jp.oist.abcvlib.core.AbcvlibLooper;
 import jp.oist.abcvlib.core.inputs.PublisherManager;
 import jp.oist.abcvlib.core.inputs.Publisher;
 
@@ -52,10 +51,10 @@ public class WheelData extends Publisher<WheelDataSubscriber> {
     }
 
     /**
-     * Listens for updates on the ioio pins monitoring the quadrature encoders.
+     * Listens for updates on the pins monitoring the quadrature encoders.
      * Note these updates are not interrupts, so they do not necessarily represent changes in
      * value, simply a loop that regularly checks the status of the pin (high/low). This method is
-     * called from the publisher located in {@link AbcvlibLooper#loop()}. <br><br>
+     * called from the publisher located in the serial communication loop. <br><br>
      *
      * After receiving data this then calculates various metrics like encoderCounts, distance,
      * and speed of each wheel. As the quadrature encoder pin states is updated FAR more frequently
