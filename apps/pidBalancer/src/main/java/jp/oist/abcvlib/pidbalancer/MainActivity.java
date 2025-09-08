@@ -10,13 +10,16 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.concurrent.TimeUnit;
 
 import jp.oist.abcvlib.core.AbcvlibActivity;
-import jp.oist.abcvlib.core.AbcvlibLooper;
-import jp.oist.abcvlib.core.IOReadyListener;
 import jp.oist.abcvlib.core.inputs.PublisherManager;
+import jp.oist.abcvlib.core.inputs.microcontroller.BatteryData;
+import jp.oist.abcvlib.core.inputs.microcontroller.BatteryDataSubscriber;
 import jp.oist.abcvlib.core.inputs.microcontroller.WheelData;
 import jp.oist.abcvlib.core.inputs.phone.OrientationData;
 import jp.oist.abcvlib.tests.BalancePIDController;
 import jp.oist.abcvlib.fragments.PidGuiFragament;
+import jp.oist.abcvlib.util.SerialCommManager;
+import jp.oist.abcvlib.util.SerialReadyListener;
+import jp.oist.abcvlib.util.UsbSerial;
 
 /**
  * Android application showing connection to IOIOBoard, Hubee Wheels, and Android Sensors
@@ -24,11 +27,13 @@ import jp.oist.abcvlib.fragments.PidGuiFragament;
  * Runs PID controller locally on Android, but takes PID parameters from python GUI
  * @author Christopher Buckley https://github.com/topherbuckley
  */
-public class MainActivity extends AbcvlibActivity implements IOReadyListener{
+public class MainActivity extends AbcvlibActivity implements SerialReadyListener,
+        BatteryDataSubscriber {
 
-    private final String TAG = getClass().getName();
     private BalancePIDController balancePIDController;
     private PidGuiFragament pidGuiFragament;
+    // Create your data publisher objects
+    PublisherManager publisherManager = new PublisherManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +42,9 @@ public class MainActivity extends AbcvlibActivity implements IOReadyListener{
         // ID within the R class
         setContentView(R.layout.activity_main);
 
-        setIoReadyListener(this);
-
         // Passes Android App information up to parent classes for various usages. Do not modify
         super.onCreate(savedInstanceState);
+        runOnUiThread(this::displayPID_GUI);
     }
 
     public void displayPID_GUI(){
@@ -65,13 +69,12 @@ public class MainActivity extends AbcvlibActivity implements IOReadyListener{
     }
 
     @Override
-    public void onIOReady(AbcvlibLooper abcvlibLooper) {
-        // Create your data publisher objects
-        PublisherManager publisherManager = new PublisherManager();
+    public void onSerialReady(UsbSerial usbSerial) {
         OrientationData orientationData = new OrientationData
                 .Builder(this, publisherManager).build();
-        WheelData wheelData = new WheelData
-                .Builder(this, publisherManager, abcvlibLooper).build();
+        BatteryData batteryData = new BatteryData.Builder(this, publisherManager).build();
+        batteryData.addSubscriber(this);
+        WheelData wheelData = new WheelData.Builder(this, publisherManager).build();
         // Initialize all publishers (i.e. start their threads and data streams)
         publisherManager.initializePublishers();
 
@@ -84,15 +87,33 @@ public class MainActivity extends AbcvlibActivity implements IOReadyListener{
         // Attach the controller/subscriber to the publishers
         orientationData.addSubscriber(balancePIDController);
         wheelData.addSubscriber(balancePIDController);
+        setSerialCommManager(new SerialCommManager(usbSerial, batteryData, wheelData));
+        super.onSerialReady(usbSerial);
+    }
 
-        // Start your publishers
+    @Override
+    public void onOutputsReady() {
+        publisherManager.initializePublishers();
         publisherManager.startPublishers();
-
         // Adds your custom controller to the compounding master controller.
         getOutputs().getMasterController().addController(balancePIDController);
         // Start the master controller after adding and starting any customer controllers.
         getOutputs().startMasterController();
+    }
 
-        runOnUiThread(this::displayPID_GUI);
+    // Main loop for any application extending AbcvlibActivity. This is where you will put your main code
+    @Override
+    protected void abcvlibMainLoop(){
+//        Log.i("basicSubscriber", "Current command speed: " + speed);
+    }
+
+    @Override
+    public void onBatteryVoltageUpdate(long timestamp, double voltage) {
+
+    }
+
+    @Override
+    public void onChargerVoltageUpdate(long timestamp, double chargerVoltage, double coilVoltage) {
+
     }
 }
