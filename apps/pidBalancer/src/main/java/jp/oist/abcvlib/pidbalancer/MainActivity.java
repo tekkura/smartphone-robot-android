@@ -34,6 +34,10 @@ public class MainActivity extends AbcvlibActivity implements SerialReadyListener
     private PidGuiFragament pidGuiFragament;
     // Create your data publisher objects
     PublisherManager publisherManager = new PublisherManager();
+    private OrientationData orientationData;
+    private WheelData wheelData;
+    private boolean started = false;
+    private final android.os.Handler handler = new android.os.Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +48,23 @@ public class MainActivity extends AbcvlibActivity implements SerialReadyListener
 
         // Passes Android App information up to parent classes for various usages. Do not modify
         super.onCreate(savedInstanceState);
-        runOnUiThread(this::displayPID_GUI);
     }
+
+    protected void onStart(){
+        super.onStart();
+        handler.post(checkControllerRunnable);
+    }
+
+    private final Runnable checkControllerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (balancePIDController != null) {
+                displayPID_GUI();
+            } else {
+                handler.postDelayed(this, 100); // Check again in 100ms
+            }
+        }
+    };
 
     public void displayPID_GUI(){
         pidGuiFragament = PidGuiFragament.newInstance(balancePIDController);
@@ -70,23 +89,14 @@ public class MainActivity extends AbcvlibActivity implements SerialReadyListener
 
     @Override
     public void onSerialReady(UsbSerial usbSerial) {
-        OrientationData orientationData = new OrientationData
+        orientationData = new OrientationData
                 .Builder(this, publisherManager).build();
         BatteryData batteryData = new BatteryData.Builder(this, publisherManager).build();
         batteryData.addSubscriber(this);
-        WheelData wheelData = new WheelData.Builder(this, publisherManager).build();
+        wheelData = new WheelData.Builder(this, publisherManager).build();
         // Initialize all publishers (i.e. start their threads and data streams)
         publisherManager.initializePublishers();
 
-        // Create your controller/subscriber
-        balancePIDController = (BalancePIDController) new BalancePIDController().setInitDelay(0)
-                .setName("BalancePIDController").setThreadCount(1)
-                .setThreadPriority(Thread.NORM_PRIORITY).setTimestep(5)
-                .setTimeUnit(TimeUnit.MILLISECONDS);
-
-        // Attach the controller/subscriber to the publishers
-        orientationData.addSubscriber(balancePIDController);
-        wheelData.addSubscriber(balancePIDController);
         SerialCommManager serialCommManager = new SerialCommManager(usbSerial, batteryData, wheelData);
         setSerialCommManager(serialCommManager);
         super.onSerialReady(usbSerial);
@@ -96,16 +106,21 @@ public class MainActivity extends AbcvlibActivity implements SerialReadyListener
     public void onOutputsReady() {
         publisherManager.initializePublishers();
         publisherManager.startPublishers();
-        // Adds your custom controller to the compounding master controller.
-        getOutputs().getMasterController().addController(balancePIDController);
-        // Start the master controller after adding and starting any customer controllers.
-        getOutputs().startMasterController();
+
+        // Create your controller/subscriber
+        balancePIDController = (BalancePIDController) new BalancePIDController(outputs).setInitDelay(0)
+                .setName("BalancePIDController").setThreadCount(1)
+                .setThreadPriority(Thread.NORM_PRIORITY).setTimestep(5)
+                .setTimeUnit(TimeUnit.MILLISECONDS);
+        // Attach the controller/subscriber to the publishers
+        orientationData.addSubscriber(balancePIDController);
+        wheelData.addSubscriber(balancePIDController);
     }
 
     // Main loop for any application extending AbcvlibActivity. This is where you will put your main code
     @Override
     protected void abcvlibMainLoop(){
-//        Log.i("basicSubscriber", "Current command speed: " + speed);
+        balancePIDController.run();
     }
 
     @Override
