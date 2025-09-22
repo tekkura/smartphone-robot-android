@@ -26,7 +26,7 @@ From here you have two choices. You can either use Android Studio or the command
 
 #### 1.) Using Android Studio
 1. Open the root of the repository in Android Studio
-2. Build the project by clicking the hammer icon in the toolbar
+2. Build the project by clicking the hammer icon in the toolbar. If this fails, [this](https://github.com/oist/smartphone-robot-android/issues/39) may help.
 3. Choose one of the build targets (backAndForth, basicSubscriber, basicAssembler) from the dropdown menu in the toolbar
 4. Ensure you have a smartphone connected to your computer via adb, see [Pairing with a smartphone via wireless debugging](#pairing-with-a-smartphone-via-wireless-debugging) for more information
 5. Click the green play button in the toolbar to install the APK on your device
@@ -104,7 +104,7 @@ Three demo applications exemplify the basic use of the API:
 
 ## Pairing with a smartphone via wireless debugging
 1. Ensure your smartphone is connected to the same network as your computer
-2. Enable wireless debugging on your smartphone by following the instructions [here](https://developer.android.com/studio/command-line/wireless-debugging)
+2. Enable wireless debugging on your smartphone by following the instructions [here](https://developer.android.com/studio/run/device#wireless)
 3. Run `adb pair <ip_address>:<port>` where `<ip_address>` is the IP address of your smartphone and `<port>` is the port number displayed on your smartphone
 4. Run `adb connect <ip_address>:<port>` to connect to your smartphone
 
