@@ -119,7 +119,11 @@ public class BalancePIDController extends AbcvlibController implements WheelData
         double i_out = i_tilt * int_e_t;
         double d_out = d_tilt * angularVelocityDeg;
 
-        setOutput((float)(p_out + i_out + d_out), (float)(p_out + i_out + d_out));
+        double outputL = p_out + i_out + d_out;
+        double outputR = p_out + i_out + d_out;
+        Log.v(TAG, "outputL:" + outputL);
+        Log.v(TAG, "outputR:" + outputR);
+        setOutput((float)outputL, (float)outputR);
     }
 
     // -------------- Input Data Listeners ----------------------------
