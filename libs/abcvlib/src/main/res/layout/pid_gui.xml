@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:stepSize="0.1"
-        android:value="3.8"
+        android:value="6.7"
         android:valueFrom="-10.0"
         android:valueTo="10.0" />
 
@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:stepSize="0.001"
-        android:value="-0.475"
+        android:value="0.0"
         android:valueFrom="-1.0"
         android:valueTo="0.0" />
 
@@ -51,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:stepSize="0.0001"
-        android:value="0.007"
+        android:value="0.000"
         android:valueFrom="0.0"
         android:valueTo="0.1" />
 
@@ -67,7 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:stepSize="0.00001"
-        android:value="0.006"
+        android:value="0.000"
         android:valueFrom="0.0"
         android:valueTo="0.01" />
 
@@ -99,7 +99,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:stepSize="0.1"
-        android:value="7.0"
+        android:value="60.0"
         android:valueFrom="-90.0"
         android:valueTo="90.0" />
 
