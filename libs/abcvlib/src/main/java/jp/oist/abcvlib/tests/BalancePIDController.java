@@ -36,14 +36,16 @@ public class BalancePIDController extends AbcvlibController implements WheelData
     }
 
     public void run(){
-        // If current tilt angle is over maxAbsTilt or under -maxAbsTilt --> Bounce Up
-        if ((setPoint - maxAbsTilt) > thetaDeg){
-            bounce(false); // Bounce backward first
-        }else if((setPoint + maxAbsTilt) < thetaDeg){
-            bounce(true); // Bounce forward first
-        }else{
-            bounceLoopCount = 0;
-            linearController();
+        if (isRunning()){
+            // If current tilt angle is over maxAbsTilt or under -maxAbsTilt --> Bounce Up
+            if ((setPoint - maxAbsTilt) > thetaDeg){
+                bounce(false); // Bounce backward first
+            }else if((setPoint + maxAbsTilt) < thetaDeg){
+                bounce(true); // Bounce forward first
+            }else{
+                bounceLoopCount = 0;
+                linearController();
+            }
         }
     }
 
