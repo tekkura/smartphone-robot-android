@@ -63,6 +63,7 @@ public class MainActivity extends AbcvlibActivity implements SerialReadyListener
     float speed = 0.35f;
     float increment = 0.01f;
     private PublisherManager publisherManager;
+    private SerialCommManager serialCommManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +104,8 @@ public class MainActivity extends AbcvlibActivity implements SerialReadyListener
         new ObjectDetectorData.Builder(this, publisherManager, this).setPreviewView(findViewById(R.id.camera_x_preview)).build().addSubscriber(this);
         new QRCodeData.Builder(this, publisherManager, this).build().addSubscriber(this);
 
-        setSerialCommManager(new SerialCommManager(usbSerial, batteryData, wheelData));
+        serialCommManager = new SerialCommManager(usbSerial, batteryData, wheelData);
+        setSerialCommManager(serialCommManager);
         super.onSerialReady(usbSerial);
     }
 
