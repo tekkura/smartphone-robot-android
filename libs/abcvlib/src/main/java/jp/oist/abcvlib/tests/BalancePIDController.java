@@ -117,7 +117,7 @@ public class BalancePIDController extends AbcvlibController implements WheelData
 
         double p_out = (p_tilt * e_t) + (p_wheel * e_w);
         double i_out = i_tilt * int_e_t;
-        double d_out = d_tilt * angularVelocityDeg;
+        double d_out = -d_tilt * angularVelocityDeg;
 
         double outputL = p_out + i_out + d_out;
         double outputR = p_out + i_out + d_out;
