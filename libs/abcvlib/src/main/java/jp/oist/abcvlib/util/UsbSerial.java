@@ -103,7 +103,11 @@ public class UsbSerial implements SerialInputOutputManager.Listener{
 
         filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
         BroadcastReceiver usbReceiver = new MyBroadcastReceiver();
-        context.registerReceiver(usbReceiver, filter);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            context.registerReceiver(usbReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            context.registerReceiver(usbReceiver, filter);
+        }
     }
 
     private void connect(UsbDevice device) throws IOException {
