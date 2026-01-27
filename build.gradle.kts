@@ -1,15 +1,10 @@
 import groovy.json.JsonSlurper
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.android.tools.build:gradle:8.13.2")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.24") // needed for YuvToRgbConverter
-        classpath("de.undercouch:gradle-download-task:5.3.1")
-    }
+plugins {
+    id("com.android.application") version "8.13.2" apply false
+    id("com.android.library") version "8.13.2" apply false
+    id("org.jetbrains.kotlin.android") version "1.9.24" apply false
+    id("de.undercouch.download") version "5.3.1" apply false
 }
 
 allprojects {
