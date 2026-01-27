@@ -1,5 +1,7 @@
-apply(plugin = "de.undercouch.download")
 apply(from = rootProject.file("common-buildconfig.gradle"))
+plugins {
+    alias(libs.plugins.undercouch.download)
+}
 
 dependencies {
     api("com.github.ytai.ioio:IOIOLibAndroid:6.1.0")

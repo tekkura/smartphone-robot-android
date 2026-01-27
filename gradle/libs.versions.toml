@@ -1,5 +1,12 @@
 [versions]
+agp = "8.13.2"
+kotlin = "1.9.24"
+download = "5.3.1"
 
 [libraries]
 
 [plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+undercouch-download = { id = "de.undercouch.download", version.ref = "download" }
