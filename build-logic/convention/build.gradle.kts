@@ -35,6 +35,13 @@ tasks {
 
 gradlePlugin {
     plugins {
-
+        register("androidApp") {
+            id = "oist.application"
+            implementationClass = "AndroidAppConventionPlugin"
+        }
+        register("androidLibrary") {
+            id = "oist.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
     }
 }
