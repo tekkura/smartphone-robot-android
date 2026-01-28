@@ -10,6 +10,7 @@ import jp.oist.abcvlib.versionCatalog
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
 
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -27,6 +28,18 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
                 configureKotlinAndroid(this)
                 configureBuildTypes(this)
+            }
+
+            dependencies {
+                "implementation"(versionCatalog.findLibrary("androidx-annotation").get())
+                "implementation"(versionCatalog.findLibrary("androidx-constraintlayout").get())
+                "implementation"(versionCatalog.findLibrary("androidx-appcompat").get())
+                "implementation"(versionCatalog.findLibrary("androidx-activity").get())
+                "implementation"(versionCatalog.findLibrary("androidx-fragment").get())
+                "implementation"(versionCatalog.findLibrary("androidx-core-ktx").get())
+                "implementation"(versionCatalog.findLibrary("material").get())
+                "implementation"(versionCatalog.findLibrary("androidx-lifecycle-livedata").get())
+                "implementation"(versionCatalog.findLibrary("androidx-lifecycle-viewmodel").get())
             }
         }
     }
