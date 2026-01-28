@@ -10,6 +10,26 @@ dependencies {
     implementation(libs.ioio.device)
     implementation(libs.android.permissions)
     implementation(libs.commons.collections4)
+    // Navigation
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
+    // CameraX
+    api(libs.androidx.camera.camera2)
+    api(libs.androidx.camera.lifecycle)
+    api(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.extensions)
+    // TensorFlow Lite
+    api(libs.tensorflow.lite.task.vision)
+    implementation(libs.tensorflow.lite.gpu.delegate.plugin)
+    implementation(libs.tensorflow.lite.gpu)
+    // ZXing (QR/Barcode)
+    implementation(libs.zxing.core)
+    implementation(libs.zxing.android.integration)
+    // Other
+    api(libs.flatbuffers)
+    api(libs.android.permissions)
+    implementation(libs.usb.serial)
+    api(libs.abcvlib.fbclasses)
 }
 
 android {
