@@ -9,7 +9,7 @@ internal fun Project.configureBuildTypes(
     commonExtension.apply {
         buildTypes {
             create("optimized") {
-                initWith(getByName("debug"))
+                initWith(getByName("release"))
                 isMinifyEnabled = true
                 proguardFiles(
                     getDefaultProguardFile("proguard-android-optimize.txt"),
