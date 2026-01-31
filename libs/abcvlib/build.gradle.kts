@@ -1,13 +1,15 @@
-apply(plugin = "de.undercouch.download")
 apply(from = rootProject.file("common-buildconfig.gradle"))
+plugins {
+    alias(libs.plugins.undercouch.download)
+}
 
 dependencies {
-    api("com.github.ytai.ioio:IOIOLibAndroid:6.1.0")
-    implementation("com.github.ytai.ioio:IOIOLibAndroidAccessory:6.1.0")
-    implementation("com.github.ytai.ioio:IOIOLibAndroidBluetooth:6.1.0")
-    implementation("com.github.ytai.ioio:IOIOLibAndroidDevice:6.1.0")
-    implementation("io.github.nishkarsh:android-permissions:2.0.54")
-    implementation("org.apache.commons:commons-collections4:4.4")
+    api(libs.ioio.android)
+    implementation(libs.ioio.accessory)
+    implementation(libs.ioio.bluetooth)
+    implementation(libs.ioio.device)
+    implementation(libs.android.permissions)
+    implementation(libs.commons.collections4)
 }
 
 android {

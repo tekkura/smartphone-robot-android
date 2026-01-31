@@ -22,3 +22,7 @@
 -keep public class * extends android.app.Activity
 -keep public class jp.oist.abcvlib.util.** { *; }
 -keep public class jp.oist.abcvlib.core.** { *; }
+-keep public class jp.oist.abcvlib.fragments.** { *; }
+
+-keep class org.tensorflow.lite.gpu.** { *; }
+-dontwarn org.tensorflow.lite.gpu.**
